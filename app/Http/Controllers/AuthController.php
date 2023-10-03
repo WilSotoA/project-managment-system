@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Inertia\Inertia;
 use App\Http\Requests\UserStoreRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
 
 class AuthController extends Controller
 {
@@ -22,7 +22,7 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => bcrypt($data['password']),
+            'password' => bcrypt( $data['password'] )
         ]);
     }
 
@@ -33,8 +33,8 @@ class AuthController extends Controller
 
     public function authUser(Request $request)
     {
-        if (Auth::attempt($request->only('email', 'password'))) {
-            return redirect('/projects');
+        if ( Auth::attempt($request->only('email', 'password')) ) {
+            return redirect('/');
         }
     }
 }

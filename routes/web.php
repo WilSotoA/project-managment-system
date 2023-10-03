@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,12 +17,18 @@ use Inertia\Inertia;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    dd(auth()->user()->id);
+    return Inertia::render('Dashboard');
 });
 
-require __DIR__.'/auth.php';
+Route::get('/registration', [AuthController::class, 'register']);
+Route::post('/registration', [AuthController::class, 'store']);
+
+Route::get('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/login', [AuthController::class, 'authUser']);
+
+// Route::middleware('auth')->group( function() {
+//     Route::resource('/boards', BoardController::class);
+
+//     Route::resource('/tasks', TaskController::class);
+// });
