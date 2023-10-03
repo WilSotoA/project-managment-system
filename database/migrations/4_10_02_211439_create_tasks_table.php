@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Project;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,8 +16,8 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->string('status')->default('pending');
-            $table->foreignId('project_id')->constrained($table = 'projects');
+            $table->enum('status', ['pendiente', 'en progreso', 'completada'])->default('pendiente');
+            $table->foreignIdFor(Project::class, 'project_id');
         });
     }
 

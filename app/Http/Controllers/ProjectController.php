@@ -14,7 +14,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        
+        return Inertia::render('Project/Index',[
+            'projects' =>  Project::all()
+        ]);
     }
 
     /**
@@ -36,15 +38,14 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($board)
+    public function show(Project $project)
     {
-        return Inertia::render('Board/Show', [
-            'board' => $board,
+        return Inertia::render('Project/Show', [
+            'project' => $project,
             'tasks' => [
-                'to_do' => $board->tasks()->where('category', 1)->get(),
-                'do_today' => $board->tasks()->where('category', 2)->get(),
-                'in_progress' => $board->tasks()->where('category', 3)->get(),
-                'done' => $board->tasks()->where('category', 4)->get()
+                'pendiente' => $project->tasks()->where('status', 'pendiente')->get(),
+                'en_progreso' => $project->tasks()->where('status', 'en progreso')->get(),
+                'completada' => $project->tasks()->where('status', 'completada')->get()
             ]
         ]);
     }
